@@ -32,9 +32,7 @@ public class TheWolf {
         shardManager = builder.build(); // Creating the bot
 
         // Registering Listeners
-        shardManager.addEventListener(
-                new GuildListener()
-        );
+        shardManager.addEventListener(new GuildListener());
     }
 
     public static void main(String[] args) {

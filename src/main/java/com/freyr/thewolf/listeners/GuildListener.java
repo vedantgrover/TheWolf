@@ -7,7 +7,6 @@ import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceVideoEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -30,10 +29,10 @@ public class GuildListener extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988658481932419142L); // Getting the channel through the ID
-        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L);
+        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L); // Getting the member count channel
 
-        assert counterChannel != null;
-        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue();
+        assert counterChannel != null; // Making sure that the channel exists
+        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue(); // Editing the channel name
 
         EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
         embed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed located in EmbedColor.
@@ -46,20 +45,26 @@ public class GuildListener extends ListenerAdapter {
         channel.sendMessageEmbeds(embed.build()).queue(); // Sending the welcome message
     }
 
+    /**
+     * This method fires every time a user leaves a server (can include getting kicked or banned)
+     *
+     * @param event - Has all the information on the event
+     * @author Freyr
+     */
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
-        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988945658532728862L);
-        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L);
+        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988945658532728862L); // Getting the leave log channel
+        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L); // Getting the member count voice channel
 
-        assert counterChannel != null;
-        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue();
+        assert counterChannel != null; // Making sure that the channel exists
+        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue(); // Editing the channel name
 
-        EmbedBuilder embed = new EmbedBuilder();
-        embed.setDescription("**" + event.getUser().getName() + "** has left the server.");
-        embed.setColor(EmbedColor.ERROR_COLOR);
+        EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
+        embed.setDescription("**" + event.getUser().getName() + "** has left the server."); // Bolds the name of the user and formats it as "<user> has left the server."
+        embed.setColor(EmbedColor.ERROR_COLOR); // Sets the color of the embed to the ERROR_COLOR in EmbedColor
 
-        assert channel != null;
-        channel.sendMessageEmbeds(embed.build()).queue();
+        assert channel != null; // Making sure that the leave log channel exists
+        channel.sendMessageEmbeds(embed.build()).queue(); // Sending the embed
     }
 
     /**
