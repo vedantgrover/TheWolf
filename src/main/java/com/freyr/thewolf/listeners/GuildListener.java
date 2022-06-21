@@ -2,10 +2,12 @@ package com.freyr.thewolf.listeners;
 
 import com.freyr.thewolf.util.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
+import net.dv8tion.jda.api.events.guild.voice.GuildVoiceVideoEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -28,6 +30,10 @@ public class GuildListener extends ListenerAdapter {
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
         MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988658481932419142L); // Getting the channel through the ID
+        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L);
+
+        assert counterChannel != null;
+        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue();
 
         EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
         embed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed located in EmbedColor.
@@ -38,6 +44,22 @@ public class GuildListener extends ListenerAdapter {
 
         assert channel != null; // Making sure that the channel is not null
         channel.sendMessageEmbeds(embed.build()).queue(); // Sending the welcome message
+    }
+
+    @Override
+    public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
+        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988945658532728862L);
+        VoiceChannel counterChannel = event.getGuild().getVoiceChannelById(988943638476226620L);
+
+        assert counterChannel != null;
+        counterChannel.getManager().setName("Member Count: " + event.getGuild().getMemberCount()).queue();
+
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setDescription("**" + event.getUser().getName() + "** has left the server.");
+        embed.setColor(EmbedColor.ERROR_COLOR);
+
+        assert channel != null;
+        channel.sendMessageEmbeds(embed.build()).queue();
     }
 
     /**
