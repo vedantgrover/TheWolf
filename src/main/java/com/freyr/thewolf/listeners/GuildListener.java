@@ -27,7 +27,7 @@ public class GuildListener extends ListenerAdapter {
      */
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988835207866105916L); // Getting the channel through the ID
+        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988658481932419142L); // Getting the channel through the ID
 
         EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
         embed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed located in EmbedColor.
