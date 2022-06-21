@@ -1,1 +1,1 @@
-worker: java -jar target/TheWolf-1.0.0-jar-with-dependencies.jar
+worker: java -jar target/TheWolf-1.0.0.jar
