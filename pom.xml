@@ -5,13 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.freyr.thewolf</groupId>
-    <artifactId>Apollo18</artifactId>
+    <artifactId>TheWolf</artifactId>
     <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <mainClass>com.freyr.thewolf.Apollo18</mainClass>
+        <mainClass>com.freyr.thewolf.TheWolf</mainClass>
     </properties>
 
     <dependencies>
