@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.freyr.apollo18</groupId>
+    <groupId>com.freyr.thewolf</groupId>
     <artifactId>Apollo18</artifactId>
     <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <mainClass>com.freyr.apollo18.Apollo18</mainClass>
+        <mainClass>com.freyr.thewolf.Apollo18</mainClass>
     </properties>
 
     <dependencies>
