@@ -2,12 +2,15 @@ package com.freyr.thewolf.listeners;
 
 import com.freyr.thewolf.util.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Channel;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * This is an event listener. All events that are generic to the guild happen here.
@@ -16,18 +19,33 @@ import org.jetbrains.annotations.NotNull;
  */
 public class GuildListener extends ListenerAdapter {
 
+    /**
+     * This method fires every time a user joins a server
+     *
+     * @param event - Has all the information on the event
+     * @author Freyr
+     */
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-        MessageChannel channel = event.getGuild().getDefaultChannel(); // Getting the default welcome channel in a server
+        MessageChannel channel = event.getGuild().getChannelById(MessageChannel.class, 988658481932419142L); // Getting the channel through the ID
 
         EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
         embed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed located in EmbedColor.
-        embed.setDescription(event.getMember() + " has joined " + event.getGuild().getName() + "! Remember to check " + event.getGuild().getRulesChannel() + " for full access to the server!"); // Setting the description, or the welcome message of the server
+        embed.setTitle(event.getUser().getName() + " has joined JHS CSHS!"); // Setting the title, or who joined the server
+        embed.setDescription("Remember to check " + Objects.requireNonNull(event.getGuild().getRulesChannel()).getAsMention() + "  for full access to the server!"); // Setting the description. Asking them to check the rules channel
+        embed.setThumbnail(event.getUser().getAvatarUrl()); // Getting the profile picture of the user and setting it as the thumbnail
+        embed.setFooter("Member #" + event.getGuild().getMemberCount()); // Telling the server what the member count is.
 
         assert channel != null; // Making sure that the channel is not null
         channel.sendMessageEmbeds(embed.build()).queue(); // Sending the welcome message
     }
 
+    /**
+     * This method fires every time a user sends a message in a server
+     *
+     * @param event - Has all the information on the event
+     * @author Freyr
+     */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
         Message msg = event.getMessage(); // Getting the message from the user
