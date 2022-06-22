@@ -1,4 +1,4 @@
-# TheWolf
+# The Wolf
 
 Welcome to the Wolf's Github Repo! This bot is used for the JHS CSHS server!
 My name is Freyr (on Discord) and I have been working on Discord bots for 2 years now!
