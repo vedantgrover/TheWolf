@@ -35,7 +35,7 @@ _Below are the necessary steps needed to run this project._
    git clone https://github.com/vedantgrover/TheWolf.git
    ```
 2. Create a `.env` file in the root project folder and populate it with all the variables in `.env.example`.
-3. You can now build and run the application using maven or the provided docker file.
+3. You can now build and run the application using maven.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
