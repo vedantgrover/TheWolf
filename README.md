@@ -1,4 +1,4 @@
-# TheWolf
+# The Wolf
 
 Welcome to the Wolf's Github Repo! This bot is used for the JHS CSHS server!
 My name is Freyr (on Discord) and I have been working on Discord bots for 2 years now!
@@ -35,7 +35,7 @@ _Below are the necessary steps needed to run this project._
    git clone https://github.com/vedantgrover/TheWolf.git
    ```
 2. Create a `.env` file in the root project folder and populate it with all the variables in `.env.example`.
-3. You can now build and run the application using maven or the provided docker file.
+3. You can now build and run the application using maven.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
