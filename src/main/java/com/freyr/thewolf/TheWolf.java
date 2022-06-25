@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
 import net.dv8tion.jda.api.sharding.ShardManager;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
 import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
@@ -28,6 +30,11 @@ public class TheWolf {
         builder.setStatus(OnlineStatus.ONLINE); // Setting the bot status to ONLINE (Green Dot)
         builder.setActivity(Activity.watching("Freyr fail...")); // Setting the bot activity to "Freyr fail...." (I will change this)
         builder.enableIntents(GatewayIntent.GUILD_PRESENCES, GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_MESSAGES); // Enabling Gateway Intents for the bot to have more access to user information (ROLES, MESSAGES)
+
+        // Caches are important to retrieve user data. This would be a requirement in some events
+        builder.setMemberCachePolicy(MemberCachePolicy.NONE); // This sets the number of users to Cache in a guild. Lazy loading. Cache's them using Discord.
+        builder.setChunkingFilter(ChunkingFilter.NONE); // Forces bot to cache all users on start up (If set to ChunkingFilter.ALL [Make sure to make the memberCachePolicy "all" for the ChunkingFiler.all]).
+        // builder.enableCache(); // ONLY TURN THIS ON IF CACHE IS ON. Picks what to cache about the user (ACTIVITY, CLIENT_STATUS, EMOTE, MEMBER_OVERRIDES, ONLINE_STATUS, ROLE_TAGS, VOICE_STATES)
 
         shardManager = builder.build(); // Creating the bot
 

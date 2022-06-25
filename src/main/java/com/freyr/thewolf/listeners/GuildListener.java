@@ -15,6 +15,9 @@ import java.util.Objects;
 
 /**
  * This is an event listener. All events that are generic to the guild happen here.
+ * <p>
+ * Events are how Discord interacts with bots. Anything that happens in Discord is sent
+ * to the bot as an event which we can use to do cool things like this.
  *
  * @author Freyr
  */
