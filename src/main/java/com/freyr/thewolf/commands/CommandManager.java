@@ -1,8 +1,6 @@
 package com.freyr.thewolf.commands;
 
-import com.freyr.thewolf.util.EmbedColor;
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
+import com.freyr.thewolf.commands.utility.PingCommand;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -12,7 +10,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class will handle all the commands that I make and add them into Discord.
@@ -24,6 +24,30 @@ import java.util.List;
  */
 public class CommandManager extends ListenerAdapter {
 
+    public static final List<Command> commands = new ArrayList<>();
+
+    public static final Map<String, Command> mapCommands = new HashMap<>();
+
+    public CommandManager() {
+        mapCommands(new PingCommand());
+    }
+
+    private void mapCommands(Command... cmds) {
+        for (Command cmd : cmds) {
+            mapCommands.put(cmd.name, cmd);
+            commands.add(cmd);
+        }
+    }
+
+    public List<CommandData> unpackCommandData() {
+        List<CommandData> commandData = new ArrayList<>();
+        for (Command cmd : commands) {
+            commandData.add(Commands.slash(cmd.name, cmd.description));
+        }
+
+        return commandData;
+    }
+
     /**
      * This method fires everytime someone uses a slash command.
      *
@@ -31,23 +55,9 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        /* I will be updating this handler to a much more advanced handler soon. Just for now, I am keeping it like this.
-        This hurt to wrote, but I promise I will fix this 😇 */
-
-        String command = event.getName(); // Getting the command name (Ex. /ping - Returns "ping")
-        if (command.equals("invite")) {
-            String serverImageURL = event.getGuild().getIconUrl(); // Getting the logo of the server
-            MessageEmbed embed = new EmbedBuilder().setTitle("Invites").setDescription("Coming soon!").setColor(EmbedColor.DEFAULT_COLOR).setThumbnail(serverImageURL).build(); // Creating a simple coming soon embed
-            event.replyEmbeds(embed).queue(); // Replying to the command
-        } else if (command.equals("ping")) {
-            event.deferReply().queue(); // Asking discord to wait more than 3 seconds for the command to compute and return a response
-            long time = System.currentTimeMillis(); // Getting the current time
-            MessageEmbed embed = new EmbedBuilder().setColor(EmbedColor.DEFAULT_COLOR).setDescription(":signal_strength: - Calculating...").build(); // Creating an embed to send. (We will use the time it took to create and send this embed as the latency)
-            event.getHook().sendMessageEmbeds(embed).queue(m -> {
-                long latency = System.currentTimeMillis() - time; // Getting the latency
-                MessageEmbed latencyEmbed = new EmbedBuilder().setTitle(":ping_pong: Pong!").setColor(EmbedColor.DEFAULT_COLOR).addField("Bot Latency", latency + "ms", false).addField("Discord API", event.getJDA().getGatewayPing() + "ms", false).setFooter("Requested by " + event.getUser().getName()).build(); // Creating the embed that displays the information
-                m.editMessageEmbeds(latencyEmbed).queue(); // Editing the embed previously to be the new embed
-            });
+        Command cmd = mapCommands.get(event.getName());
+        if (cmd != null) {
+            cmd.execute(event);
         }
     }
 
@@ -59,11 +69,14 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
+        if (event.getGuild().getIdLong() == 988655520082714654L) {
+            event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
+        }
     }
 
     /**
      * This method fires everytime the bot is ready. (Everytime it starts up)
-     * This method will hold the global commands and I will be using it to register commands for the server to use.
+     * This method will hold the global commands, and I will be using it to register commands for the server to use.
      *
      * @param event Has all the information about the event.
      */
