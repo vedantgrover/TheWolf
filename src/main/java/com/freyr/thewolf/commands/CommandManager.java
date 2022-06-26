@@ -86,7 +86,7 @@ public class CommandManager extends ListenerAdapter {
         // Adding two slash commands into the command data
         commandData.add(Commands.slash("invite", "Create an invite for the server or for the bot!"));
         commandData.add(Commands.slash("ping", "Returns the latency of the bot and the Discord API"));
-        event.getJDA().updateCommands().addCommands(commandData).queue(); // Adding all commands into Discord.
+        event.getJDA().updateCommands().queue(); // Adding all commands into Discord.
 
         // I will be making this more advanced and easy to use. Don't worry. I will fix this.
     }
