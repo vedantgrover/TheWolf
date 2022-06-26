@@ -11,7 +11,7 @@ I am beyond excited to start making bots again. I hope you enjoy!!
 
 ### Built With
 
-Below is a comprehensive list of the frameworks and libraries used to build Apollo18.
+Below is a comprehensive list of the frameworks and libraries used to build The Wolf.
 
 * [Java Discord API](https://github.com/DV8FromTheWorld/JDA)
 * [DotEnv](https://github.com/cdimascio/dotenv-java)
