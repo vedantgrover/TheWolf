@@ -68,11 +68,7 @@ public class CommandManager extends ListenerAdapter {
      * @param event Has all the information about the event.
      */
     @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {
-        if (event.getGuild().getIdLong() == 988655520082714654L) {
-            event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
-        }
-    }
+    public void onGuildReady(@NotNull GuildReadyEvent event) {}
 
     /**
      * This method fires everytime the bot is ready. (Everytime it starts up)
@@ -82,12 +78,6 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        List<CommandData> commandData = new ArrayList<>(); // Holds all command data
-        // Adding two slash commands into the command data
-        commandData.add(Commands.slash("invite", "Create an invite for the server or for the bot!"));
-        commandData.add(Commands.slash("ping", "Returns the latency of the bot and the Discord API"));
-        event.getJDA().updateCommands().queue(); // Adding all commands into Discord.
-
-        // I will be making this more advanced and easy to use. Don't worry. I will fix this.
+        event.getJDA().updateCommands().addCommands(unpackCommandData()).queue();
     }
 }
