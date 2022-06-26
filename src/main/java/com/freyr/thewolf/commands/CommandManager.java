@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands;
 
+import com.freyr.thewolf.commands.utility.InviteCommand;
 import com.freyr.thewolf.commands.utility.PingCommand;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
@@ -24,14 +25,19 @@ import java.util.Map;
  */
 public class CommandManager extends ListenerAdapter {
 
-    public static final List<Command> commands = new ArrayList<>();
+    public static final List<Command> commands = new ArrayList<>(); // Contains all the commands
 
-    public static final Map<String, Command> mapCommands = new HashMap<>();
+    public static final Map<String, Command> mapCommands = new HashMap<>(); // Contains all the commands with their identifiers (names)
 
     public CommandManager() {
-        mapCommands(new PingCommand());
+        mapCommands(new PingCommand(), new InviteCommand());
     }
 
+    /**
+     * Adds the commands into the map and the arraylist
+     *
+     * @param cmds All the commands you want the bot to execute
+     */
     private void mapCommands(Command... cmds) {
         for (Command cmd : cmds) {
             mapCommands.put(cmd.name, cmd);
@@ -39,10 +45,15 @@ public class CommandManager extends ListenerAdapter {
         }
     }
 
+    /**
+     * Creates CommandData for each command which is used to add the command into discord
+     *
+     * @return A list of command data for the Discord API to go through and add into Discord
+     */
     public List<CommandData> unpackCommandData() {
         List<CommandData> commandData = new ArrayList<>();
         for (Command cmd : commands) {
-            commandData.add(Commands.slash(cmd.name, cmd.description));
+            commandData.add(Commands.slash(cmd.name, cmd.description).addOptions(cmd.args)); // Creating a new slash command with the properties located within the command
         }
 
         return commandData;
@@ -55,9 +66,9 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
-        Command cmd = mapCommands.get(event.getName());
+        Command cmd = mapCommands.get(event.getName()); // Getting the command based off of the name received in the event
         if (cmd != null) {
-            cmd.execute(event);
+            cmd.execute(event); // Executing the execute method.
         }
     }
 
@@ -68,7 +79,9 @@ public class CommandManager extends ListenerAdapter {
      * @param event Has all the information about the event.
      */
     @Override
-    public void onGuildReady(@NotNull GuildReadyEvent event) {}
+    public void onGuildReady(@NotNull GuildReadyEvent event) {
+        //event.getJDA().updateCommands().addCommands(unpackCommandData()).queue();
+    }
 
     /**
      * This method fires everytime the bot is ready. (Everytime it starts up)
@@ -78,6 +91,6 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().updateCommands().addCommands(unpackCommandData()).queue();
+        event.getJDA().updateCommands().addCommands(unpackCommandData()).queue(); // Creating a global command using the command data
     }
 }

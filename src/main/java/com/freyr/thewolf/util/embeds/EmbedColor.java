@@ -1,4 +1,4 @@
-package com.freyr.thewolf.util;
+package com.freyr.thewolf.util.embeds;
 
 /**
  * This interface contains all the color constants that I will use. It will make changing

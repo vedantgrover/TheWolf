@@ -1,6 +1,6 @@
 package com.freyr.thewolf.listeners;
 
-import com.freyr.thewolf.util.EmbedColor;
+import com.freyr.thewolf.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
