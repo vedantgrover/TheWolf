@@ -2,12 +2,10 @@ package com.freyr.thewolf.listeners;
 
 import com.freyr.thewolf.util.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.VoiceChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberRemoveEvent;
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +25,6 @@ public class GuildListener extends ListenerAdapter {
      * This method fires every time a user joins a server
      *
      * @param event - Has all the information on the event
-     * @author Freyr
      */
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
@@ -52,7 +49,6 @@ public class GuildListener extends ListenerAdapter {
      * This method fires every time a user leaves a server (can include getting kicked or banned)
      *
      * @param event - Has all the information on the event
-     * @author Freyr
      */
     @Override
     public void onGuildMemberRemove(@NotNull GuildMemberRemoveEvent event) {
@@ -68,35 +64,5 @@ public class GuildListener extends ListenerAdapter {
 
         assert channel != null; // Making sure that the leave log channel exists
         channel.sendMessageEmbeds(embed.build()).queue(); // Sending the embed
-    }
-
-    /**
-     * This method fires every time a user sends a message in a server
-     *
-     * @param event - Has all the information on the event
-     * @author Freyr
-     */
-    @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        Message msg = event.getMessage(); // Getting the message from the user
-
-        final String PREFIX = "w."; // The current prefix of the bot. Will change it to slash commands later
-        if (msg.getContentRaw().equals(PREFIX + "ping")) { // Checking to see if the command is w.ping
-            long time = System.currentTimeMillis(); // Getting the current time
-            EmbedBuilder embed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
-            embed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed color located in EmbedColor
-            embed.setDescription(":signal_strength: - Calculating..."); // Sending a message to calculate ping
-            event.getChannel().sendMessageEmbeds(embed.build()).queue(m -> { // Editing the message
-                long latency = System.currentTimeMillis() - time; // Checking the difference in time between start and message send
-                EmbedBuilder latencyEmbed = new EmbedBuilder(); // Allows us to create and set the properties of an embed
-                latencyEmbed.setTitle(":ping_pong: - Pong!"); // Setting the title to "🏓 - Pong!"
-                latencyEmbed.setColor(EmbedColor.DEFAULT_COLOR); // Sets the color of the embed to the default embed color located in EmbedColor
-                latencyEmbed.addField("Bot Latency", latency + "ms", false); // Adds the field called "Bot latency" and sets the field description to the latency
-                latencyEmbed.addField("Websocket", event.getJDA().getGatewayPing() + "ms", false); // Adds the field called "Websocket" and sets the description to the websocket latency
-                latencyEmbed.setFooter("Requested by " + event.getAuthor().getName()); // Sets the footer to the author
-
-                m.editMessageEmbeds(latencyEmbed.build()).queue(); // Edits the message
-            });
-        }
     }
 }
