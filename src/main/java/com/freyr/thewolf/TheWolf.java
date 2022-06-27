@@ -1,6 +1,7 @@
 package com.freyr.thewolf;
 
 import com.freyr.thewolf.commands.CommandManager;
+import com.freyr.thewolf.listeners.ButtonListener;
 import com.freyr.thewolf.listeners.GuildListener;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
@@ -41,7 +42,7 @@ public class TheWolf {
         shardManager = builder.build(); // Creating the bot
 
         // Registering Listeners
-        shardManager.addEventListener(new GuildListener(), new CommandManager());
+        shardManager.addEventListener(new GuildListener(), new ButtonListener(), new CommandManager());
     }
 
     public static void main(String[] args) {
