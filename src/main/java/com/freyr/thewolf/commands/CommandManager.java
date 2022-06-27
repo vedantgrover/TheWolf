@@ -100,7 +100,7 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event) {
-        //event.getJDA().updateCommands().addCommands(unpackCommandData()).queue();
+        event.getGuild().updateCommands().addCommands(unpackCommandData()).queue();
     }
 
     /**

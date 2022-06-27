@@ -4,7 +4,6 @@ import com.freyr.thewolf.commands.Category;
 import com.freyr.thewolf.commands.Command;
 import com.freyr.thewolf.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageChannel;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -32,16 +31,15 @@ public class ReportBugCommand extends Command {
         String bug = event.getOption("bug").getAsString();
         OptionMapping example = event.getOption("example");
 
-        String text = "Time <t:" + Instant.now().getEpochSecond() + ":F>" + "\nDescription: " + bug;
-
         EmbedBuilder embed = new EmbedBuilder().setTitle("Bug Report!").setDescription("Bug Report Submitted by: " + event.getUser().getAsMention()).addField("Time", "<t:" + Instant.now().getEpochSecond() + ":F>", false).addField("Description", bug, false).setColor(EmbedColor.DEFAULT_COLOR);
         if (example != null) {
             embed.setImage(example.getAsAttachment().getUrl());
         }
 
+        //noinspection ConstantConditions
         event.getGuild().getChannelById(MessageChannel.class, 988664675480797244L).sendMessageEmbeds(embed.build()).queue();
 
-        MessageEmbed replyEmbed = new EmbedBuilder().setDescription(":white_check_mark: - Your suggestion has been sent to the bot developer!").setColor(EmbedColor.DEFAULT_COLOR).build();
+        MessageEmbed replyEmbed = new EmbedBuilder().setDescription(":white_check_mark: - **Your report has been sent to the bot developer!**").setColor(EmbedColor.DEFAULT_COLOR).build();
         event.getHook().sendMessageEmbeds(replyEmbed).queue();
     }
 }
