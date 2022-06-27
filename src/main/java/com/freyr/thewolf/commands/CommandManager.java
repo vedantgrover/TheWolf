@@ -3,6 +3,7 @@ package com.freyr.thewolf.commands;
 import com.freyr.thewolf.commands.utility.HelpCommand;
 import com.freyr.thewolf.commands.utility.InviteCommand;
 import com.freyr.thewolf.commands.utility.PingCommand;
+import com.freyr.thewolf.commands.utility.ReportBugCommand;
 import net.dv8tion.jda.api.events.ReadyEvent;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -34,6 +35,7 @@ public class CommandManager extends ListenerAdapter {
         mapCommands(
                 new PingCommand(),
                 new InviteCommand(),
+                new ReportBugCommand(),
                 new HelpCommand()
         );
     }
