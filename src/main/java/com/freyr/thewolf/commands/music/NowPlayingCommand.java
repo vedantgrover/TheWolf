@@ -55,7 +55,6 @@ public class NowPlayingCommand extends Command {
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(audioTrack.getInfo().title);
-        embed.setDescription("Song added to queue. Number: " + musicManager.scheduler.queue.size());
         embed.addField("Length", dateFormatted, true);
         embed.addField("Artist", audioTrack.getInfo().author, true);
         embed.setColor(EmbedColor.DEFAULT_COLOR);
