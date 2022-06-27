@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands.utility;
 
+import com.freyr.thewolf.commands.Category;
 import com.freyr.thewolf.commands.Command;
 import com.freyr.thewolf.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -19,6 +20,7 @@ public class ReportBugCommand extends Command {
         super();
         this.name = "report";
         this.description = "Report a bug!";
+        this.category = Category.UTILITY;
 
         this.args.add(new OptionData(OptionType.STRING, "bug", "Please describe the bug you found", true));
         this.args.add(new OptionData(OptionType.ATTACHMENT, "example", "You can send in an image for us to look at.", false));
