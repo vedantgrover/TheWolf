@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Listens for button input and handles all button backend.
  *
- * @author TechnoVision
+ * @author Freyr
  */
 public class ButtonListener extends ListenerAdapter {
 
