@@ -111,6 +111,6 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().updateCommands().addCommands(unpackCommandData()).queue(); // Creating a global command using the command data
+        event.getJDA().updateCommands().queue(); // Creating a global command using the command data
     }
 }
