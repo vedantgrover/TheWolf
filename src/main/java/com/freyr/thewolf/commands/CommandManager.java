@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands;
 
+import com.freyr.thewolf.commands.music.*;
 import com.freyr.thewolf.commands.utility.HelpCommand;
 import com.freyr.thewolf.commands.utility.InviteCommand;
 import com.freyr.thewolf.commands.utility.PingCommand;
@@ -36,6 +37,18 @@ public class CommandManager extends ListenerAdapter {
                 new PingCommand(),
                 new InviteCommand(),
                 new ReportBugCommand(),
+                // Music Commands
+                new PlayCommand(),
+                new StopCommand(),
+                new SkipCommand(),
+                new NowPlayingCommand(),
+                new QueueCommand(),
+                new LoopCommand(),
+                new VolumeCommand(),
+                new PauseCommand(),
+                new ResumeCommand(),
+
+                // Help command should come at the bottom
                 new HelpCommand()
         );
     }
@@ -98,6 +111,6 @@ public class CommandManager extends ListenerAdapter {
      */
     @Override
     public void onReady(@NotNull ReadyEvent event) {
-        event.getJDA().updateCommands().addCommands(unpackCommandData()).queue(); // Creating a global command using the command data
+        event.getJDA().updateCommands().queue(); // Creating a global command using the command data
     }
 }
