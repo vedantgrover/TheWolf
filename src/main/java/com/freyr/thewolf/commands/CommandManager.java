@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands;
 
+import com.freyr.thewolf.commands.utility.HelpCommand;
 import com.freyr.thewolf.commands.utility.InviteCommand;
 import com.freyr.thewolf.commands.utility.PingCommand;
 import net.dv8tion.jda.api.events.ReadyEvent;
@@ -30,7 +31,11 @@ public class CommandManager extends ListenerAdapter {
     public static final Map<String, Command> mapCommands = new HashMap<>(); // Contains all the commands with their identifiers (names)
 
     public CommandManager() {
-        mapCommands(new PingCommand(), new InviteCommand());
+        mapCommands(
+                new PingCommand(),
+                new InviteCommand(),
+                new HelpCommand()
+        );
     }
 
     /**

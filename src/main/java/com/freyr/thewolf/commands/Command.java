@@ -16,6 +16,7 @@ public abstract class Command {
 
     public String name; // Name of the command
     public String description; // Description of the command
+    public Category category;
     public List<OptionData> args; // Any options the command needs goes here
 
     /**

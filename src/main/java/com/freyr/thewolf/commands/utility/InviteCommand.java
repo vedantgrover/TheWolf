@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands.utility;
 
+import com.freyr.thewolf.commands.Category;
 import com.freyr.thewolf.commands.Command;
 import com.freyr.thewolf.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -13,6 +14,7 @@ public class InviteCommand extends Command {
         super();
         this.name = "invite";
         this.description = "Generate an invite to the server or to the bot";
+        this.category = Category.UTILITY;
 
         OptionData data = new OptionData(OptionType.STRING, "type", "Pick between server invite and bot invite", true);
         data.addChoice("server", "server");

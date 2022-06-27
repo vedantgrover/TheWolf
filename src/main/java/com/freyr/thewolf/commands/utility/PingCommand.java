@@ -1,5 +1,6 @@
 package com.freyr.thewolf.commands.utility;
 
+import com.freyr.thewolf.commands.Category;
 import com.freyr.thewolf.commands.Command;
 import com.freyr.thewolf.util.embeds.EmbedColor;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -9,9 +10,9 @@ public class PingCommand extends Command {
 
     public PingCommand() {
         super();
-
         this.name = "ping";
         this.description = "Returns the latency of the bot and the Discord API";
+        this.category = Category.UTILITY;
     }
 
     @Override
