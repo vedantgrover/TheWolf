@@ -29,7 +29,6 @@ public class NowPlayingCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        final Member self = event.getGuild().getSelfMember();
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
@@ -55,6 +54,7 @@ public class NowPlayingCommand extends Command {
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(audioTrack.getInfo().title);
+        embed.setDescription(audioTrack.getInfo().uri);
         embed.addField("Length", dateFormatted, true);
         embed.addField("Artist", audioTrack.getInfo().author, true);
         embed.setColor(EmbedColor.DEFAULT_COLOR);

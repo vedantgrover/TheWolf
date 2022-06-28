@@ -28,7 +28,6 @@ public class VolumeCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        final Member self = event.getGuild().getSelfMember();
         int volume = event.getOption("volume").getAsInt();
 
         final Member member = event.getMember();

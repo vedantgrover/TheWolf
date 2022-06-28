@@ -47,6 +47,7 @@ public class TrackScheduler extends AudioEventAdapter {
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(track.getInfo().title);
+        embed.setDescription(track.getInfo().uri);
         embed.addField("Length", dateFormatted, true);
         embed.addField("Artist", track.getInfo().author, true);
         embed.setColor(EmbedColor.DEFAULT_COLOR);

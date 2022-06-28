@@ -28,10 +28,10 @@ public class QueueCommand extends Command {
         this.category = Category.MUSIC;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        final Member self = event.getGuild().getSelfMember();
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
@@ -51,11 +51,11 @@ public class QueueCommand extends Command {
             return;
         }
 
-        String nextUpText = "";
+        StringBuilder nextUpText = new StringBuilder();
         long totalTime = 0;
         for (int i = 1; i < queue.size(); i++) {
             if (i <= 10) {
-                nextUpText += i + ". " + queue.get(i).getInfo().title + "\n";
+                nextUpText.append(i).append(". ").append(queue.get(i).getInfo().title).append("\n");
             }
             totalTime += queue.get(i).getInfo().length;
         }
@@ -76,9 +76,10 @@ public class QueueCommand extends Command {
 
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(audioTrack.getInfo().title);
+        embed.setDescription(audioTrack.getInfo().uri);
         embed.addField("Length", dateFormatted, true);
         embed.addField("Artist", audioTrack.getInfo().author, true);
-        embed.addField("__Next Up:__", nextUpText, false);
+        embed.addField("__Next Up:__", nextUpText.toString(), false);
         embed.setColor(EmbedColor.DEFAULT_COLOR);
         embed.setFooter(((queue.size() > 10) ? "(+" + (queue.size() - 10) + " songs":"") + "Total Time: " + dateFormatted2);
         embed.setThumbnail(thumbnailURL);

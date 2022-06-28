@@ -71,7 +71,7 @@ public class PlayerManager {
 
                 EmbedBuilder embed = new EmbedBuilder();
                 embed.setTitle(audioTrack.getInfo().title);
-                embed.setDescription("Song added to queue. Number: " + musicManager.scheduler.queue.size());
+                embed.setDescription("Song added to queue. Number: " + musicManager.scheduler.queue.indexOf(audioTrack));
                 embed.addField("Length", dateFormatted, true);
                 embed.addField("Artist", audioTrack.getInfo().author, true);
                 embed.setColor(EmbedColor.DEFAULT_COLOR);

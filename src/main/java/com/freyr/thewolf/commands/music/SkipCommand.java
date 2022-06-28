@@ -24,7 +24,6 @@ public class SkipCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        final Member self = event.getGuild().getSelfMember();
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
