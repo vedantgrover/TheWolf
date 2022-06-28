@@ -1,6 +1,7 @@
 package com.freyr.thewolf.util.music;
 
 import com.freyr.thewolf.util.embeds.EmbedColor;
+import com.freyr.thewolf.util.embeds.EmbedUtils;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
 import com.sedmelluq.discord.lavaplayer.player.DefaultAudioPlayerManager;
@@ -17,21 +18,31 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * This class searches and plays the song.
+ *
+ * @author Freyr
+ */
 public class PlayerManager {
-    private static PlayerManager INSTANCE;
-
-    private final Map<Long, GuildMusicManager> musicManagers;
-    private final AudioPlayerManager audioPlayerManager;
-    public static MessageChannel musicLogChannel;
+    public static MessageChannel musicLogChannel; // This is the channel that the user put the command in.
+    private static PlayerManager INSTANCE; // This is the class
+    private final Map<Long, GuildMusicManager> musicManagers; // We are mapping each guild manager to that guild id (taken from Discord)
+    private final AudioPlayerManager audioPlayerManager; // Allows us to load the track and play it
 
     public PlayerManager() {
         this.musicManagers = new HashMap<>();
         this.audioPlayerManager = new DefaultAudioPlayerManager();
 
+        // Registering Sources
         AudioSourceManagers.registerRemoteSources(this.audioPlayerManager);
         AudioSourceManagers.registerLocalSource(this.audioPlayerManager);
     }
 
+    /**
+     * If the player manager doesn't exist yet, then it creates a new instance of it.
+     *
+     * @return A new player manager
+     */
     public static PlayerManager getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new PlayerManager();
@@ -40,6 +51,12 @@ public class PlayerManager {
         return INSTANCE;
     }
 
+    /**
+     * Gets the GuildMusicManager. This allows multiple guilds to play music at the same time.
+     *
+     * @param guild The guild you want the music manager for
+     * @return The Music Manager for that Guild
+     */
     public GuildMusicManager getMusicManager(Guild guild) {
         return this.musicManagers.computeIfAbsent(guild.getIdLong(), (guildId) -> {
             final GuildMusicManager guildMusicManager = new GuildMusicManager(this.audioPlayerManager);
@@ -50,9 +67,16 @@ public class PlayerManager {
         });
     }
 
+    /**
+     * Grabs the song/playlist and adds it to the queue or plays it.
+     *
+     * @param event    I needed this event so that I can send a message
+     * @param channel  This is the channel that the user used the command in.
+     * @param trackUrl This is the Url or Search that the user put in
+     */
     public void loadAndPlay(SlashCommandInteractionEvent event, MessageChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getJDA().getGuildById(988655520082714654L));
-        this.musicLogChannel = channel;
+        musicLogChannel = channel;
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
@@ -103,7 +127,7 @@ public class PlayerManager {
 
             @Override
             public void noMatches() {
-
+                event.getHook().sendMessageEmbeds(EmbedUtils.createError("We were unable to find your search.")).queue();
             }
 
             @Override

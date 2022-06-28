@@ -12,10 +12,12 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
-import net.dv8tion.jda.api.interactions.commands.build.SubcommandData;
 import net.dv8tion.jda.api.requests.restaction.interactions.ReplyCallbackAction;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * This is a dynamic help command. As more commands are added and mapped in {@link CommandManager}, it will automatically
@@ -63,10 +65,7 @@ public class HelpCommand extends Command {
             List<MessageEmbed> embeds = buildCategoryMenu(category, categories.get(category));
             if (embeds.isEmpty()) {
                 // No commands for this category
-                EmbedBuilder embed = new EmbedBuilder()
-                        .setTitle(category.emoji + "  **%s Commands**".formatted(category.name))
-                        .setDescription("Coming soon...")
-                        .setColor(EmbedColor.DEFAULT_COLOR);
+                EmbedBuilder embed = new EmbedBuilder().setTitle(category.emoji + "  **%s Commands**".formatted(category.name)).setDescription("Coming soon...").setColor(EmbedColor.DEFAULT_COLOR);
                 event.replyEmbeds(embed.build()).queue();
                 return;
             }

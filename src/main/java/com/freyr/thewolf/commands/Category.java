@@ -8,8 +8,7 @@ package com.freyr.thewolf.commands;
  */
 public enum Category {
 
-    UTILITY("Utility", ":tools:"),
-    MUSIC("Music", ":musical_note:");
+    UTILITY("Utility", ":tools:"), MUSIC("Music", ":musical_note:");
 
     public String name; // Name of the Category
     public String emoji; // What emoji to use with it
