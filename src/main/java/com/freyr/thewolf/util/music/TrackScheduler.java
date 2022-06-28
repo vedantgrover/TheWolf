@@ -11,29 +11,28 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.TimeZone;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 public class TrackScheduler extends AudioEventAdapter {
 
     public final AudioPlayer player;
-    public final BlockingQueue<AudioTrack> queue;
+    public final LinkedList<AudioTrack> queue;
     public boolean isLoop = false;
 
     public TrackScheduler(AudioPlayer player) {
         this.player = player;
-        this.queue = new LinkedBlockingQueue<>();
+        this.queue = new LinkedList<>();
     }
 
     public void queue(AudioTrack track) {
         if (!this.player.startTrack(track, true)) {
-            this.queue.offer(track);
+            this.queue.add(track);
         }
     }
 
     public void nextTrack() {
-        AudioTrack track = this.queue.poll();
+        AudioTrack track = this.queue.remove(0);
         this.player.startTrack(track, false);
 
         Date date = new Date(track.getInfo().length);

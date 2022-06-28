@@ -15,6 +15,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.TimeZone;
 import java.util.concurrent.BlockingQueue;
 
@@ -42,7 +43,7 @@ public class QueueCommand extends Command {
 
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
 
-        BlockingQueue<AudioTrack> queue = musicManager.scheduler.queue;
+        LinkedList<AudioTrack> queue = musicManager.scheduler.queue;
         AudioTrack audioTrack = musicManager.audioPlayer.getPlayingTrack();
 
         if (audioTrack == null) {
@@ -50,16 +51,13 @@ public class QueueCommand extends Command {
             return;
         }
 
-        int counter = 1;
         String nextUpText = "";
         long totalTime = 0;
-
-        for (AudioTrack track : queue) {
-            if (counter <= 10) {
-                nextUpText += counter + ". " + track.getInfo().title + "\n";
+        for (int i = 1; i < queue.size(); i++) {
+            if (i <= 10) {
+                nextUpText += i + ". " + queue.get(i).getInfo().title + "\n";
             }
-            totalTime += track.getInfo().length;
-            counter++;
+            totalTime += queue.get(i).getInfo().length;
         }
 
         Date date = new Date(audioTrack.getInfo().length);
