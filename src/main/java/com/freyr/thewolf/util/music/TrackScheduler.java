@@ -33,22 +33,8 @@ public class TrackScheduler extends AudioEventAdapter {
     }
 
     public void nextTrack() {
-        this.player.startTrack(this.queue.poll(), false);
-    }
-
-    @Override
-    public void onPlayerPause(AudioPlayer player) {
-        super.onPlayerPause(player);
-    }
-
-    @Override
-    public void onPlayerResume(AudioPlayer player) {
-        super.onPlayerResume(player);
-    }
-
-    @Override
-    public void onTrackStart(AudioPlayer player, AudioTrack track) {
-        super.onTrackStart(player, track);
+        AudioTrack track = this.queue.poll();
+        this.player.startTrack(track, false);
 
         Date date = new Date(track.getInfo().length);
         DateFormat formatter = new SimpleDateFormat("mm:ss");
@@ -68,6 +54,21 @@ public class TrackScheduler extends AudioEventAdapter {
         embed.setThumbnail(thumbnailURL);
 
         PlayerManager.musicLogChannel.sendMessageEmbeds(embed.build()).queue();
+    }
+
+    @Override
+    public void onPlayerPause(AudioPlayer player) {
+        super.onPlayerPause(player);
+    }
+
+    @Override
+    public void onPlayerResume(AudioPlayer player) {
+        super.onPlayerResume(player);
+    }
+
+    @Override
+    public void onTrackStart(AudioPlayer player, AudioTrack track) {
+        super.onTrackStart(player, track);
     }
 
     @Override
