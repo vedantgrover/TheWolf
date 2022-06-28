@@ -29,14 +29,14 @@ public class QueueCommand extends Command {
         this.description = "Displays the current queue";
         this.category = Category.MUSIC;
 
-        this.args.add(new OptionData(OptionType.INTEGER, "skipTo", "Skip to a certain position in the queue!", false));
+        this.args.add(new OptionData(OptionType.INTEGER, "spot", "Skip to a certain position in the queue!", false));
     }
 
     @SuppressWarnings("ConstantConditions")
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        int skipTo = event.getOption("skipTo").getAsInt();
+        int skipTo = event.getOption("spot").getAsInt();
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
