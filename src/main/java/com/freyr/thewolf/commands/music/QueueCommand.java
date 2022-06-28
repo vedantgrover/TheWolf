@@ -11,6 +11,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
@@ -19,7 +20,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.TimeZone;
-import java.util.concurrent.BlockingQueue;
 
 public class QueueCommand extends Command {
 
@@ -36,7 +36,7 @@ public class QueueCommand extends Command {
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        int skipTo = event.getOption("spot").getAsInt();
+        OptionMapping spot = event.getOption("spot");
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
 
@@ -47,7 +47,7 @@ public class QueueCommand extends Command {
 
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
 
-        if (skipTo == 0) {
+        if (spot == null) {
 
             LinkedList<AudioTrack> queue = musicManager.scheduler.queue;
             AudioTrack audioTrack = musicManager.audioPlayer.getPlayingTrack();
@@ -92,27 +92,34 @@ public class QueueCommand extends Command {
 
             event.getHook().sendMessageEmbeds(embed.build()).queue();
         } else {
-            musicManager.audioPlayer.startTrack(musicManager.scheduler.queue.get(skipTo), false);
+            musicManager.audioPlayer.startTrack(musicManager.scheduler.queue.get(spot.getAsInt()), false);
+            for (int i = 0; i < spot.getAsInt(); i++) {
+                musicManager.scheduler.queue.remove(i);
+            }
+
+            AudioTrack track = musicManager.audioPlayer.getPlayingTrack();
 
             // The next 4 lines of code just help format the length of the song (returned in milliseconds) into an aesthetically pleasing format.
-            Date date = new Date(musicManager.scheduler.queue.get(skipTo).getInfo().length);
+            Date date = new Date(track.getInfo().length);
             DateFormat formatter = new SimpleDateFormat("mm:ss");
             formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
             String dateFormatted = formatter.format(date);
 
             // The next 3 lines of code grabs the URL of the thumbnail
-            String url = musicManager.scheduler.queue.get(skipTo).getInfo().uri;
+            String url = track.getInfo().uri;
             String videoID = url.substring(32);
             String thumbnailURL = "http://img.youtube.com/vi/" + videoID + "/0.jpg";
 
             // Building the embed that the user will see
             EmbedBuilder embed = new EmbedBuilder();
-            embed.setTitle(musicManager.scheduler.queue.get(skipTo).getInfo().title);
-            embed.setDescription(musicManager.scheduler.queue.get(skipTo).getInfo().uri);
+            embed.setTitle(track.getInfo().title);
+            embed.setDescription(track.getInfo().uri);
             embed.addField("Length", dateFormatted, true);
-            embed.addField("Artist", musicManager.scheduler.queue.get(skipTo).getInfo().author, true);
+            embed.addField("Artist", track.getInfo().author, true);
             embed.setColor(EmbedColor.DEFAULT_COLOR);
             embed.setThumbnail(thumbnailURL);
+
+            event.getHook().sendMessageEmbeds(embed.build()).queue();
         }
     }
 }
