@@ -80,7 +80,7 @@ public class QueueCommand extends Command {
         embed.addField("Artist", audioTrack.getInfo().author, true);
         embed.addField("__Next Up:__", nextUpText, false);
         embed.setColor(EmbedColor.DEFAULT_COLOR);
-        embed.setFooter("Total Time: " + dateFormatted2);
+        embed.setFooter(((queue.size() > 10) ? "(+" + (queue.size() - 10) + " songs":"") + "Total Time: " + dateFormatted2);
         embed.setThumbnail(thumbnailURL);
 
         event.getHook().sendMessageEmbeds(embed.build()).queue();
