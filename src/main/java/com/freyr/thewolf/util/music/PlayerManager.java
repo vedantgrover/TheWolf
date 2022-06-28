@@ -22,6 +22,7 @@ public class PlayerManager {
 
     private final Map<Long, GuildMusicManager> musicManagers;
     private final AudioPlayerManager audioPlayerManager;
+    public static MessageChannel musicLogChannel;
 
     public PlayerManager() {
         this.musicManagers = new HashMap<>();
@@ -51,6 +52,7 @@ public class PlayerManager {
 
     public void loadAndPlay(SlashCommandInteractionEvent event, MessageChannel channel, String trackUrl) {
         final GuildMusicManager musicManager = this.getMusicManager(channel.getJDA().getGuildById(988655520082714654L));
+        this.musicLogChannel = channel;
 
         this.audioPlayerManager.loadItemOrdered(musicManager, trackUrl, new AudioLoadResultHandler() {
             @Override
