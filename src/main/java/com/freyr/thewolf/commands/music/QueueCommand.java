@@ -59,7 +59,7 @@ public class QueueCommand extends Command {
 
             StringBuilder nextUpText = new StringBuilder();
             long totalTime = 0;
-            for (int i = 1; i < queue.size(); i++) {
+            for (int i = 0; i < queue.size(); i++) {
                 if (i <= 10) {
                     nextUpText.append(i).append(". ").append(queue.get(i).getInfo().title).append("\n");
                 }
