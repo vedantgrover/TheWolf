@@ -2,12 +2,15 @@ package com.freyr.thewolf.commands.music;
 
 import com.freyr.thewolf.commands.Category;
 import com.freyr.thewolf.commands.Command;
+import com.freyr.thewolf.util.embeds.EmbedColor;
 import com.freyr.thewolf.util.embeds.EmbedUtils;
 import com.freyr.thewolf.util.music.GuildMusicManager;
 import com.freyr.thewolf.util.music.PlayerManager;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.GuildVoiceState;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 
@@ -19,16 +22,16 @@ public class VolumeCommand extends Command {
         this.description = "Sets the volume of the music";
         this.category = Category.MUSIC;
 
-        OptionData data = new OptionData(OptionType.INTEGER, "volume", "New Volume Percent", true);
+        OptionData data = new OptionData(OptionType.INTEGER, "volume", "New Volume Percent", false);
         data.setMaxValue(200);
         data.setMinValue(0);
-        this.args.add(new OptionData(OptionType.INTEGER, "volume", "The volume percent", true));
+        this.args.add(data);
     }
 
     @Override
     public void execute(SlashCommandInteractionEvent event) {
         event.deferReply().queue();
-        int volume = event.getOption("volume").getAsInt();
+        OptionMapping volume = event.getOption("volume");
 
         final Member member = event.getMember();
         final GuildVoiceState memberVoiceState = member.getVoiceState();
@@ -40,8 +43,12 @@ public class VolumeCommand extends Command {
 
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
 
-        musicManager.audioPlayer.setVolume(volume);
+        if (volume == null) {
+            event.getHook().sendMessageEmbeds(new EmbedBuilder().setColor(EmbedColor.DEFAULT_COLOR).setDescription(":loud_sound: - Current volume is set to " + musicManager.audioPlayer.getVolume() + "%").build()).queue();
+        } else {
+            musicManager.audioPlayer.setVolume(volume.getAsInt());
 
-        event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Volume has been set to " + musicManager.audioPlayer.getVolume() + "%")).queue();
+            event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Volume has been set to " + musicManager.audioPlayer.getVolume() + "%")).queue();
+        }
     }
 }
