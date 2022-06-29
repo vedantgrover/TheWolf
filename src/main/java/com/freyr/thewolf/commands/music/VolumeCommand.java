@@ -44,7 +44,7 @@ public class VolumeCommand extends Command {
         GuildMusicManager musicManager = PlayerManager.getInstance().getMusicManager(event.getGuild());
 
         if (volume == null) {
-            event.getHook().sendMessageEmbeds(new EmbedBuilder().setColor(EmbedColor.DEFAULT_COLOR).setDescription(":loud_sound: - Current volume is set to " + musicManager.audioPlayer.getVolume() + "%").build()).queue();
+            event.getHook().sendMessageEmbeds(new EmbedBuilder().setColor(EmbedColor.DEFAULT_COLOR).setDescription("**:loud_sound: - Current volume is set to " + musicManager.audioPlayer.getVolume() + "%**").build()).queue();
         } else {
             musicManager.audioPlayer.setVolume(volume.getAsInt());
 
