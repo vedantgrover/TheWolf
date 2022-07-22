@@ -45,7 +45,7 @@ public class InviteCommand extends Command {
             botEmbed.setColor(EmbedColor.DEFAULT_COLOR);
             botEmbed.setDescription("Thank you for taking an interest in sharing this bot! Sadly this bot has been created only for this server and cannot be shared. However if you would like to invite a similar bot to your own server, try out Apollo18! Apollo is a multi-purpose bot and is currently in development! Important links are below.");
             botEmbed.addField("Server Invite", "https://discord.gg/zqK2PXAuyk", false);
-            botEmbed.addField("Bot Invite", "Invite Apollo18 [here](https://discord.com/api/oauth2/authorize?client_id=988814602659856414&permissions=8&scope=bot%20applications.commands)!", true);
+            botEmbed.addField("Bot Invite", "Invite Apollo18 [here](https://discord.com/api/oauth2/authorize?client_id=853812538218381352&permissions=8&scope=applications.commands%20bot)!", true);
             botEmbed.setFooter("Requested by " + event.getUser().getName());
             event.getHook().sendMessageEmbeds(botEmbed.build()).queue();
         }
