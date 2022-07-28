@@ -6,6 +6,7 @@ import com.freyr.thewolf.util.embeds.EmbedColor;
 import com.freyr.thewolf.util.embeds.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
@@ -38,8 +39,8 @@ public class SuggestCommand extends Command {
         embed.setColor(EmbedColor.DEFAULT_COLOR);
 
         event.getGuild().getChannelById(MessageChannel.class, 988664853201833994L).sendMessageEmbeds(embed.build()).queue(m -> {
-            m.addReaction("⬆").queue();
-            m.addReaction("⬇").queue();
+            m.addReaction(Emoji.fromUnicode("⬆️")).queue();
+            m.addReaction(Emoji.fromUnicode("⬇️")).queue();
         });
         event.getJDA().getUserById(622506118551437322L).openPrivateChannel().flatMap(channel -> channel.sendMessageEmbeds(embed.build())).queue();
         event.getHook().sendMessageEmbeds(EmbedUtils.createSuccess("Suggestion sent to developer")).setEphemeral(true).queue();

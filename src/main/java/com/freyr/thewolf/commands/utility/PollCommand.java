@@ -5,6 +5,7 @@ import com.freyr.thewolf.commands.Command;
 import com.freyr.thewolf.util.embeds.EmbedColor;
 import com.freyr.thewolf.util.embeds.EmbedUtils;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
@@ -60,7 +61,7 @@ public class PollCommand extends Command {
 
         event.getHook().sendMessageEmbeds(embed.build()).queue(msg -> {
             for (int i = 0; i < choicesArray.length; i++) {
-                msg.addReaction(NUMBER_EMOJIS.get(i)).queue();
+                msg.addReaction(Emoji.fromUnicode(NUMBER_EMOJIS.get(i))).queue();
             }
         });
     }
